@@ -22,20 +22,25 @@ public class Main {
 
         /*
          * Assumptions:
-         * - A folder is created where "epgt.exe" is put and then ran from terminal
-         * - Java 11 (Amazon Corretto 11.0.24) is installed and used to run the jar, if running the jar
-         * - The program is being run on Windows 11
-         * - For first time run just keep the program/exe/jar within its own directory and run, it will then create "plates.txt", if it has access
-         * - Program/Exe/Jar is executed in directory where "plates.txt" resides and doesn't move the program at all
-         * - Content within "plates.txt" is in plaintext format, with one plate per line
-         * - No duplicate memory tags are passed in during runtime
-         * - All input date strings follow "dd/MM/yyyy" format
-         * - The sizes of memorytags and datetags should be equal ((memorytags.size() == datetags.size()) -> true)
-         * - No memory tags contain invalid characters (e.g., numbers or special symbols)
-         * - Program has full permissions to read/write/create "plates.txt" (which gets created in the directory where the program is executed first)
-         * - Program runs in a single threaded context (no parallel execution)
-         * - It is assumed that memorytag can contain I and Q (if you don't want this then you can set line 80 parameter to false)
-         * - The program assumes that the correct format is followed for date tags where it goes dd/mm/yyyy
+         * - The program is executed using either:
+         *     - "epgt.exe" on Windows 11
+         *     - "epgt.jar" on Windows 11 or Linux (Ubuntu-tested) with Java 11 (Amazon Corretto 11.0.24 recommended)
+         * - A folder is created where the program is placed and executed from terminal
+         * - Java 11 is installed and used to run the JAR, if running the JAR version
+         * - Program is executed in the directory where "plates.txt" will be located
+         * - If "plates.txt" does not exist, the program will create it in the current directory
+         * - If "plates.txt" does exist, the program will load previously generated plates to prevent duplicates
+         * - "plates.txt" is a plaintext file with one plate per line
+         * - The user has full permission to read, write, and create "plates.txt" in the execution directory
+         * - The program is run in a single-threaded context (no concurrent executions)
+         * - The plate format is: {MEMORYTAG}{AGE_IDENTIFIER}{THREE_RANDOM_LETTERS}
+         * - The three random letters will never include 'I' or 'Q', as per specification
+         * - Memory tags must be two uppercase alphabetic characters with no invalid symbols or digits
+         * - Date tags must follow the format "dd/MM/yyyy"
+         * - The sizes of memorytags[] and datetags[] arrays are assumed to be equal
+         * - If "--debug" is passed as an argument, console output for info/warnings/errors is enabled
+         * - Running the program multiple times from the same folder will ensure previously generated plates are retained
+         * - The program is designed for local terminal/command line execution only (no GUI interface)
         */
 
         // Debug mode for whether output should be displayed or not
