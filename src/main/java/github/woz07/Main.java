@@ -32,7 +32,7 @@ public class Main {
          * - All input date strings follow "dd/MM/yyyy" format
          * - The sizes of memorytags and datetags should be equal ((memorytags.size() == datetags.size()) -> true)
          * - No memory tags contain invalid characters (e.g., numbers or special symbols)
-         * - Program has full permissions to read/write/delete "plates.txt" (which gets created in the directory where the program is executed first)
+         * - Program has full permissions to read/write/create "plates.txt" (which gets created in the directory where the program is executed first)
          * - Program runs in a single threaded context (no parallel execution)
          * - It is assumed that memorytag can contain I and Q (if you don't want this then you can set line 80 parameter to false)
          * - The program assumes that the correct format is followed for date tags where it goes dd/mm/yyyy
