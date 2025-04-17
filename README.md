@@ -16,7 +16,7 @@ This is my submission for etas plate generation task
   ```
   ./epgt.exe
   ```
-- Screenshot of windows
+  <img src="https://github.com/user-attachments/assets/9d0857b1-c7bc-445f-be14-b2031d9b27b9" alt="win-ss" width="500" height="500"/>
 
 ### Option 2: Using .jar (Cross-platform)
 - Ensure you have `java 11` installed (Amazon Corretto 11.0.24 recommended)
@@ -43,6 +43,7 @@ epgt.exe --debug
 # or
 java -jar epgt.jar --debug
 ```
+<img src="https://github.com/user-attachments/assets/0c921728-2581-4aa7-9299-de29cc226924" alt="win-ss-d" width="500" height="600"/>
 
 ### File output
 The program creates a file called `plates.txt` in the same directory as the executable or JAR. This file stores all previously generated plates and prevents duplicates.
