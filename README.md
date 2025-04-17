@@ -25,7 +25,8 @@ This is my submission for etas plate generation task
   ```
   java -jar epgt.jar
   ```
-- Screenshot of linux
+  <img src="https://github.com/user-attachments/assets/3483f447-6b90-4ed9-9162-58c9f5c20d01" alt="lin-ss" width="500" height="500"/>
+
 
 # Usage
 ### Default mode
@@ -44,6 +45,8 @@ epgt.exe --debug
 java -jar epgt.jar --debug
 ```
 <img src="https://github.com/user-attachments/assets/0c921728-2581-4aa7-9299-de29cc226924" alt="win-ss-d" width="500" height="600"/>
+<img src="https://github.com/user-attachments/assets/445ff38c-e09d-41a6-ba34-ee141bab7095" alt="lin-ss-d" width="500" height="600"/>
+
 
 ### File output
 The program creates a file called `plates.txt` in the same directory as the executable or JAR. This file stores all previously generated plates and prevents duplicates.
