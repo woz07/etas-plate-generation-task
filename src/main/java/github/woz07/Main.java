@@ -14,6 +14,7 @@ public class Main {
                 'W','X','Y','Z'
         };
     private static final Random RANDOM = new Random();          // The randomizer, used in generating plates
+    private static boolean debug       = false;                 // Should the app output any errors/messages? (default is false)
 
     // Entry point;
     // Loads plates, generates plates and saves them
@@ -24,28 +25,40 @@ public class Main {
          * - A folder is created where "epgt.exe" is put and then ran from terminal
          * - Java 11 (Amazon Corretto 11.0.24) is installed and used to run the jar, if running the jar
          * - The program is being run on Windows 11
-         * - Program is executed from the root directory where "plates.txt" resides
-         * - Content within "plates.txt" is in plaintext format, one plate per line
+         * - For first time run just keep the program/exe/jar within its own directory and run, it will then create "plates.txt", if it has access
+         * - Program/Exe/Jar is executed in directory where "plates.txt" resides and doesn't move the program at all
+         * - Content within "plates.txt" is in plaintext format, with one plate per line
          * - No duplicate memory tags are passed in during runtime
          * - All input date strings follow "dd/MM/yyyy" format
          * - The sizes of memorytags and datetags should be equal ((memorytags.size() == datetags.size()) -> true)
          * - No memory tags contain invalid characters (e.g., numbers or special symbols)
-         * - Program has full permissions to read/write/delete "plates.txt" from AppData/Roaming/epgt/
+         * - Program has full permissions to read/write/delete "plates.txt" (which gets created in the directory where the program is executed first)
          * - Program runs in a single threaded context (no parallel execution)
+         * - It is assumed that memorytag can contain I and Q (if you don't want this then you can set line 80 parameter to false)
+         * - The program assumes that the correct format is followed for date tags where it goes dd/mm/yyyy
         */
+
+        // Debug mode for whether output should be displayed or not
+        debug = Arrays.asList(args).contains("--debug");
 
         // Load previously stored plates from file to set
         LoadGeneratedPlates();
 
-        // Hard coded test data
+        // Hard coded test data from PDF
         String[] memorytags = new String[]{"YC", "LT", "FF"};
         String[] datetags   = new String[]{"04/07/2019", "23/01/2003", "30/05/2032"};
 
         // Generate plates
         // ASSUME memorytags.size() == datetags.size()
         for (int i = 0; i < memorytags.length; i++) {
-            String plate = GeneratePlate(memorytags[i], datetags[i]);
-            System.out.println((i + 1) + ") Generated Plate: " + plate);
+            // If debug is enabled then output the result
+            if (debug) {
+                String plate = GeneratePlate(memorytags[i], datetags[i]);
+                System.out.println("[INFO] " + (i + 1) + ") Generated Plate: " + plate);
+            // Otherwise just add to the set and continue without output
+            } else {
+                GeneratePlate(memorytags[i], datetags[i]);
+            }
         }
 
         // Save plates from set to file
@@ -114,16 +127,26 @@ public class Main {
 
         if (!file.exists()) {
             // No saved files exists to read from yet
+            if (debug) {
+                System.out.println("[WARNING] No existing \"plates.txt\" file found. Starting fresh");
+            }
             return;
         }
 
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String line;
+            int count = 0;
             while ((line = reader.readLine()) != null) {
                 PLATES.add(line.trim());
+                count++;
+            }
+            if (debug) {
+                System.out.println("[INFO] Loaded " + count + " plates from file");
             }
         } catch (IOException err) {
-            System.err.println("Plates could not be loaded: " + err.getMessage());
+            if (debug) {
+                System.err.println("[ERROR] Plates could not be loaded: " + err.getMessage());
+            }
         }
     }
 
@@ -135,8 +158,13 @@ public class Main {
             for (String plate : PLATES) {
                 writer.println(plate);
             }
+            if (debug) {
+                System.out.println("[INFO] Saved " + PLATES.size() + " plates to file");
+            }
         } catch (IOException err) {
-            System.err.println("Plates could not be saved: " + err.getMessage());
+            if (debug) {
+                System.err.println("[SEVERE] Plates could not be saved: " + err.getMessage());
+            }
         }
     }
 }

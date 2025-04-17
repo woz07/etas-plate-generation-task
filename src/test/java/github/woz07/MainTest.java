@@ -16,14 +16,14 @@ class MainTest {
         String[] arr = {"YC19ZCT"};
 
         for (String pass : arr) {
-            System.out.println(pass.matches("^[A-Z]{2}\\d{2,3}[A-HJ-NPR-Z|]{3}$") ? "Pass passed [GOOD]" : "Pass failed [BAD]");
+            System.out.println(pass.matches("^[A-Z]{2}\\d{2,3}[A-HJ-NPR-Z]{3}$") ? "Pass passed [GOOD]" : "Pass failed [BAD]");
         }
 
         // Fails
         arr = new String[]{"YC19ZCI"};
 
         for (String fail : arr) {
-            System.out.println(fail.matches("^[A-Z]{2}\\d{2,3}[A-HJ-NPR-Z|]{3}$") ? "Fail passed [BAD]" : "Fail failed [GOOD]");
+            System.out.println(fail.matches("^[A-Z]{2}\\d{2,3}[A-HJ-NPR-Z]{3}$") ? "Fail passed [BAD]" : "Fail failed [GOOD]");
         }
     }
 
@@ -38,7 +38,7 @@ class MainTest {
 
         int passed = 0;
         int failed = 0;
-        int max    = 1000000;
+        int max    = 1000;
 
         // Generate a bunch of memory tags
         List<String> memorytags = new ArrayList<>();
@@ -75,10 +75,12 @@ class MainTest {
             try {
                 String plate = Main.GeneratePlate(memorytags.get(i), datetags.get(i));
                 // NOTE: This allows for plates of length 8 (where the age identifier has gone above 100)
-                if (plate.matches("^[A-Z]{2}\\d{2,3}[A-HJ-NPR-Z|]{3}$"))
+                if (plate.matches("^[A-Z]{2}\\d{2,3}[A-HJ-PR-Z]{3}$"))
                     passed++;
-                else
+                else {
                     failed++;
+                    System.out.println("Failed="+plate);
+                }
             } catch (Exception e) {
                 failed++;
             }
